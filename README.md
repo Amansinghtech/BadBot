@@ -1,5 +1,5 @@
 # The Badbot Project By Aman Singh
-![GitHub Logo](/badbot.png) 
+![GitHub Logo](/badBot.ico) 
 # Badbot
 ## Description
 BadBot is a simple telegram bot written in python. It provides a reverse shell which can be use to command and control
