@@ -18,8 +18,10 @@ It also gives some basic web application scanning tools like: -
 
 ## Installation
 ***step 1:*** make sure that you have python 3 installed already on your pc.
+***step 1.1*** type command pip install virtualenv
+***step 1.2*** active your virtual environment
 
-***step 2:*** type command pip install python3 -m pip install requirements.txt
+***step 2:*** type command pip install requirements.txt
 
 ***step 3:*** edit the config file for changes 
 
