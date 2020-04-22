@@ -42,7 +42,7 @@ class encrypt:
 class dir_walk:
 
     def __init__(self):
-        self.extensions = ['.mp4', '.txt', '.png', 'jpg','jpeg', '.pdf']
+        self.extensions = ['.mp4', '.txt', '.png', '.jpg','.jpeg', '.pdf', '.mkv', '.docx','.xlsx']
 
     def add_ext(self, ext):
         self.extensions.append(ext)

