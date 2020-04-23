@@ -92,5 +92,5 @@ after running badBot.py you can directly got to telegram app and start sending c
 
 - If anything goes wrong then developer of this project is not resposible..
 
-## Conclusion
+## Discalimer
 >this bot is only meant for educational purpose. So, please don't try to hack your girlfriend's / boyfriend's account with this application
